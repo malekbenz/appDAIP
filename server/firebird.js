@@ -8,17 +8,22 @@ var pool = Firebird.pool(10, configDB);
 module.exports =
       {
         getContrat : function(callback){
-            execSql(sqlOptions.sqlContrat,callback)
-            }
+            execSql(sqlOptions.sqlContrat,[],callback)
+          },
+        getContratByCCP : function(params,callback){
+            execSql(sqlOptions.sqlContratByCCP, params, callback)
+          },
+        getContratByFLname : function(params,callback){
+              execSql(sqlOptions.sqlContratByFLname, params, callback)
+              }
       }
 
-function execSql(sql,cb){
-
+function execSql(sql,params, cb){
   pool.get(function(err, db) {
         if (err)
           throw err;
       // db = DATABASE
-      db.query(sql, function(err, result) {
+      db.query(sql, params, function(err, result) {
           // IMPORTANT: close the connection
           db.detach();
           result.forEach(function(element, index, array){

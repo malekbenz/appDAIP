@@ -1,0 +1,47 @@
+<section class='col-xs-10'>
+  <br>
+  <br>
+  <br>
+      <table class="table table-hover">
+        <thead>
+          <th>
+            Nom
+          </th>
+          <th>
+            Naissance
+          </th>
+          <th>
+            C.C.P
+          </th>
+          <th>
+            Employeur
+          </th>
+          <th>
+            Programme
+          </th>
+          <th>
+
+          </th>
+        </thead>
+        <tr ng-repeat ="demande in listContrats">
+            <td>
+              {{demande.DEMANDEUR}}
+            </td>
+            <td>
+              {{demande.DATENAISS}}
+            </td>
+            <td>
+              {{demande.CCP}}
+            </td>
+            <td>
+              {{demande.EMPLOYEUR}}
+            </td>
+            <td>
+              {{demande.PROGRAMME}}
+            </td>
+            <td>
+              <button type="submit" ng-click="remove($index, demande)" class="btn btn-warning">Remove</button>
+            </td>
+        </tr>
+      </table>
+</section>

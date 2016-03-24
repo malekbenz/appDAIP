@@ -1,0 +1,65 @@
+
+<div class="row">
+  <div class='col-xs-12'>
+      <form method="post"  ng-submit="search()" >
+          <div>
+            <section id="search">
+              <label for="search-input"><i class="fa fa-search"></i></label>
+              <input id="search-input" ng-model ="strSearch" class="form-control input-lg" autofocus placeholder="Trouver" autocomplete="off" spellcheck="false" autocorrect="off" tabindex="1">
+              <a id="search-clear" href="#" class="fa fa-times-circle hide"></a>
+            </section>
+          </div>
+        </form>
+      </br>
+        <div class='col-md-8 col-xs-12'>
+          <table class="table table-hover hand-cursor">
+            <thead>
+              <th>
+                Nom
+              </th>
+              <th>
+                C.C.P
+              </th>
+              <th >
+                Employeur
+              </th>
+              <th>
+                Disp.
+              </th>
+            </thead>
+            <tr ng-repeat ="demande in listContrats" ng-click="add(demande)">
+                <td>
+                  <strong>{{demande.DEMANDEUR}}</strong> ({{demande.DATENAISS}})
+                </td>
+                <td>
+                  {{demande.CCP}}
+                </td>
+                  <td>
+                    {{demande.EMPLOYEUR}}
+                  </td>
+                  <td>
+                    {{demande.PROGRAMME}}
+                  </td>
+            </tr>
+          </table>
+
+        </div>
+        <div class='col-md-4'>
+          <div ng-repeat ="demande in listPointage |limitTo:4">
+
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><i ng-click="removePointage($index, demande)" class="fa fa-times fa-lg hand-cursor"></i>  {{demande.DEMANDEUR}} <span> ({{demande.addedAt | date:'HH:mm:ss'}})</span> </h3>
+                </div>
+                <div class="panel-body">
+                  <h4>{{demande.DATENAISS}} <i class="fa fa-credit-card fa-lg"></i>  <span class="label label-default">{{demande.CCP}}</span></h4>
+                  <p> {{demande.EMPLOYEUR}}  </p>
+                </div>
+              </div>
+          </div>
+
+        </div>
+  </div>
+
+
+</div>

@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Welcome to OpenShift</title>
+<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="Lib/angular/angular.min.js"></script>
+<script src="Lib/angular-route/angular-route.min.js"></script>
+<script src="app/controllers.js"></script>
+
+</head>
+<body ng-app ="appDaip">
+  <div class="btn-group">
+    <a class="btn btn-danger" href="#/home"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
+    <a class="btn btn-default" href="#/pointages"><i class="fa fa-book fa-fw"></i>&nbsp; pointages</a>
+    <a class="btn btn-default" href="#"><i class="fa fa-pencil fa-fw"></i>&nbsp; Applications</a>
+    <a class="btn btn-default" href="#"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a>
+  </div>
+  <hgroup>
+    <h1 align="center" >Welcome to DAIP Finder </h1>
+  </hgroup>
+<section class='container'>
+  <div ng-view></div>
+</section>
+
+<footer>
+</footer>
+
+</body>
+</html>

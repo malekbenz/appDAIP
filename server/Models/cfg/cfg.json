@@ -1,10 +1,10 @@
 {
-    "host": "10.34.1.4",
+    "host": "10.34.1.10",
     "port": 3050,
     "user": "SYSDBA",
-    "password": "password",
+    "password": "y2afire",
     "role": null,
     "pagesize": 8192,
     "charset": "UTF8",
-    "database": "C:\\DBDaip\\GEA.fdb"
+    "database": "D:\\DBDaip\\GEA.fdb"
 }
