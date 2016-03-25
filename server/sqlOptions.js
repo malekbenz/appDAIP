@@ -7,8 +7,11 @@ var sqlContratHead =
       "Dat_Nais As DateNaiss,dem.Cod_Agence As Agence,Ctr.COD_DIP, Dip.LIB_FOR As Diplome, Dip.LIB_DIP As LibelleDiplome"+
       ", Ctr.CPTE As CCP" +
 
-      " FROM contrats Ctr  INNER JOIN demandeur Dem INNER JOIN employeur Emp INNER JOIN N_I NI INNER JOIN DIPLOME Dip"+
-      " ON( ctr.cod_dem= dem.cod_dem)  ON( ctr.cod_emp= emp.cod_emp)  ON( Dem.cod_Niv= NI.cod_Niv)  ON( Ctr.COD_DIP= Dip.COD_DIP)";
+      " FROM contrats Ctr  INNER JOIN demandeur Dem  ON( ctr.cod_dem= dem.cod_dem)  "+
+      " INNER JOIN employeur Emp ON( ctr.cod_emp= emp.cod_emp) "+
+      " INNER JOIN N_I NI ON( Dem.cod_Niv= NI.cod_Niv)  "+
+      " INNER JOIN DIPLOME Dip  ON( Ctr.COD_DIP= Dip.COD_DIP)";
+
 
 
 var sqlContrat1 = sqlContratHead + " Order by Emp.lib_Emp  ASC";

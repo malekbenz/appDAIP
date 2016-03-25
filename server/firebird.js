@@ -14,6 +14,7 @@ module.exports =
             execSql(sqlOptions.sqlContratByCCP, params, callback)
           },
         getContratByFLname : function(params,callback){
+          console.log(sqlOptions.sqlContratByFLname);
               execSql(sqlOptions.sqlContratByFLname, params, callback)
               }
       }

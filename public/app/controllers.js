@@ -44,37 +44,11 @@ appDaip.controller('contratListCtrl',['$scope', '$http','srvPointage', function 
 
     };
 
-  function getUrlTerms(strTerms)  {
-    var terms = strTerms.split(" ");;
-    var searchCCP = '' ;
-    var searchNom ='';
-    var searchPrenom ='';
-    terms.forEach(function(el){
-        if (parseInt(el, 10))
-        {
-          searchCCP = el;
-        }
-        else
-        {
-          if(!searchNom)
-            searchNom = el;
-          else
-            searchPrenom = el;
-        }
-      });
-
-    var result = '?ccp=' + searchCCP
-      result += '&nom=' + searchNom;
-      result += '&prenom=' + searchPrenom;
-
-    return result;
-  }
 
   $scope.search = function(){
-    var terms = $scope.strSearch.split(" ");
-    searchTerm = getUrlTerms($scope.strSearch);
+    searchTerm = $scope.strSearch;
     console.log('URL '+ searchTerm);
-    $http.get("api/contrat/"+searchTerm)
+    $http.get("api/contrats?q="+searchTerm)
     .then(function(response) {
       $scope.listContrats =      response.data;
       // $scope.ccp ="";

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Firebird = require('../server/firebird');
-
+var utilsDAIP =require('../server/utilsdaip')
 
 router.get('/', function(req, res){
   Firebird.getContrat(
@@ -21,6 +21,8 @@ router.get('/contrat/:id', function(req, res){
     });
 
 router.get('/contrat', function(req, res){
+  var q = req.query.q;
+  console.log(q);
   var sqlParams =[];
   var ccp = (req.query.ccp || '') +'%';
   var nom = (req.query.nom || '') +'%';
@@ -35,6 +37,23 @@ router.get('/contrat', function(req, res){
         res.json(data);
       });
      });
+router.get('/contrats', function(req, res){
+       var q = req.query.q;
+       console.log(q);
+       var persone = utilsDAIP.getPersoneFromStr(q);
+       console.log(persone);
+
+       var sqlParams =[];
+       sqlParams.push(persone.CCP+'%');
+       sqlParams.push(persone.nom.toUpperCase()+'%');
+       sqlParams.push(persone.prenom.toUpperCase()+'%');
+
+       console.log(sqlParams);
+       Firebird.getContratByFLname(sqlParams,
+           function(data){
+             res.json(data);
+           });
+    });
 
 
 module.exports = router;
