@@ -27,7 +27,7 @@ var sqlContratByLname =
             sqlContratHead + " Where Ctr.CPTE like ? AND dem.pren like ? "
         " Order by Emp.lib_Emp  ASC";
 var sqlContratByFLname =
-        sqlContratHead + " Where Ctr.CPTE like ? AND dem.nom like ? AND dem.pren like ? "
+        sqlContratHead + " Where Ctr.CPTE like ? AND dem.nom like ? AND dem.pren like ? AND Dat_Nais like ? "
         " Order by Emp.lib_Emp  ASC";
 
 

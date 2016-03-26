@@ -47,6 +47,7 @@ router.get('/contrats', function(req, res){
        sqlParams.push(persone.CCP+'%');
        sqlParams.push(persone.nom.toUpperCase()+'%');
        sqlParams.push(persone.prenom.toUpperCase()+'%');
+       sqlParams.push(persone.dateNaissance || '%' );
 
        console.log(sqlParams);
        Firebird.getContratByFLname(sqlParams,

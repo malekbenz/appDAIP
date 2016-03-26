@@ -1,10 +1,46 @@
+function formatDate(strDate) {
+
+  var date = strDate.replace(/\./g,'/')
+
+  date = date.split('/');
+
+  try {
+
+      date = new Date(date[2], date[1]-1, date[0]);
+
+  }
+
+  catch (e) {
+
+      return '';
+
+  }
+
+        month = '' + (date.getMonth()+1),
+
+        day = '' + date.getDate(),
+
+        year = date.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+
+    if (day.length < 2) day = '0' + day;
+
+    return [day, month, year].join('/');
+
+}
+
+
+
 function extractDate(str){
 
-  var re = [/(\d{2})\/(\d{2})\/(\d{4})/,/(\d{2})\/(\d{2})\/(\d{2})/,
 
-    /(\d{2})\.(\d{2})\.(\d{4})/,/(\d{2})\.(\d{2})\.(\d{2})/,
 
-    /(\d{4})\/(\d{2})\/(\d{2})/  ];
+  var re = [/(\d{1,2})\/(\d{1,2})\/(\d{4})/,/(\d{1,2})\/(\d{1,2})\/(\d{2})/,
+
+            /(\d{1,2})\.(\d{1,2})\.(\d{4})/,/(\d{1,2})\.(\d{1,2})\.(\d{2})/,
+
+            /(\d{4})\/(\d{1,2})\/(\d{1,2})/  ];
 
     var parts;
 
@@ -12,17 +48,19 @@ function extractDate(str){
 
       parts = str.match(re[i]);
 
-      if(parts){
+        if(parts){
 
-        return parts[0];
+          var result = parts[0];
+
+          return result;
 
       }
+
     }
 
     return '';
+
   }
-
-
 
 function getPersoneFromStr(strTerms){
 
@@ -38,15 +76,19 @@ function getPersoneFromStr(strTerms){
 
             };
 
-
-
-  persone.dateNaissance =extractDate(strTerms);
+  persone.dateNaissance = extractDate(strTerms);
 
   strTerms = strTerms.replace(persone.dateNaissance,'');
 
-  var terms = strTerms.split(" ");;
+  if(persone.dateNaissance)
 
+  {
 
+    persone.dateNaissance = formatDate(persone.dateNaissance);
+
+  }
+
+  var terms = strTerms.split(" ");
 
   terms.forEach(function(el){
 
@@ -66,8 +108,6 @@ function getPersoneFromStr(strTerms){
 
       {
 
-
-
         if(!persone.nom)
 
           persone.nom = el;
@@ -86,8 +126,6 @@ function getPersoneFromStr(strTerms){
 
 }
 
-
-
 function getUrlTerms(strTerms)  {
 
   var persone = getPersoneFromStr(strTerms);
@@ -100,12 +138,16 @@ function getUrlTerms(strTerms)  {
 
     result += '&dateNaissance=' + persone.dateNaissance;
 
-
-
   return result;
 
 }
 
+
+
 var months = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+// var str = getPersoneFromStr('01.01.2015 b a ' );
+
+// console.log(str);
 
 exports.getPersoneFromStr = getPersoneFromStr;
