@@ -17,7 +17,10 @@
             Employeur
           </th>
           <th>
-            Programme
+            Prog.
+          </th>
+          <th>
+
           </th>
           <th>
 
@@ -38,6 +41,13 @@
             </td>
             <td>
               {{demande.PROGRAMME}}
+            </td>
+            <td>
+              <p class="text-danger">{{demande.Maternite ? 'Mat.':' '}}</p>
+              <p class="text-primary">{{demande.Maladie ?   'Maladie.':' '}}</p>
+              <p class="text-primary">{{demande.Conge ?   'Congé' : ''}}</p>
+              <p class="text-primary">{{demande.mois ?   (demande.mois) : ''}}</p>
+
             </td>
             <td>
               <button type="submit" ng-click="remove($index, demande)" class="btn btn-warning">Remove</button>

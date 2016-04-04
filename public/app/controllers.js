@@ -1,69 +1,77 @@
-var appDaip = angular.module('appDaip', ['ngRoute']);
+var appDaip = angular.module('appDaip');
 
-
-appDaip.config(['$routeProvider',
-    function($routeProvider) {
-
-        // Système de routage
-        $routeProvider
-        .when('/home', {
-            templateUrl: 'partials/search.html',
-            controller: 'contratListCtrl'
-        })
-        .when('/pointages', {
-            templateUrl: 'partials/pointages.html',
-            controller: 'contratListPointage'
-        })
-        .otherwise({
-        redirectTo: '/home'
-      });
-    }
-]);
-
-appDaip.factory('srvPointage', function () {
-  listPointages = [];
-  return listPointages;
+appDaip.controller('NavCtrl', function($scope, $location) {
+    $scope.isActive = function(route) {
+        return route === $location.path();
+    };
 });
 
+appDaip.controller('contratListCtrl',['$scope', 'srvPointages', 'srvContrats', function ($scope, srvPointages, srvContrats) {
+  $scope.results = [];
+  $scope.pointages = [];
+  $scope.lastPointages =[];
+  $scope.lastMonths=  srvPointages.lastMonths;
+  $scope.addMonth = function (mois,demande){
+     console.log(demande);
 
-appDaip.controller('contratListCtrl',['$scope', '$http','srvPointage', function ($scope, $http,srvPointage) {
-  $scope.listContrats = [];
-  $scope.listPointage = srvPointage;
+        if (demande.mois.indexOf(mois)<0){
+          demande.mois.push(mois);
+        }
+        else
+        {
+            demande.mois.splice(demande.mois.indexOf(mois),1);
+        }
+    }
+  srvPointages.getAll()
+                .then(function(response) {
+                  $scope.lastPointages =      response;
+                  console.log($scope.lastPointages);
+                });
 
-  $scope.add = function(demande){
+  $scope.removePointage =  function (index,demande){
+      $scope.pointages.splice(index,1);
+    }
+  $scope.addPointage =  function (index,demande){
+    var newDemande = $scope.pointages[index];
+      srvPointages.add(newDemande)
+      .then(function(response) {
+        $scope.listPointage =  response;
+
+      });
+
+      $scope.pointages.splice(index,1);
+    }
+
+  $scope.add =  function(demande){
     demande.addedAt = new Date();
-    srvPointage.unshift(demande) ;
-    console.log(srvPointage);
+    demande.mois = [srvPointages.currentMonth];
 
-  };
-
-  $scope.removePointage=  function(index,demande){
-      srvPointage.splice(index,1);
-      // srvPointage.unshift(demande) ;
-      console.log(index,1);
-
-    };
-
+    if ($scope.pointages.length>0)
+    {
+    var newDemande = $scope.pointages.pop();
+    srvPointages.add(newDemande)
+    .then(function(response) {
+      $scope.listPointage =  response;
+      $scope.lastPointages.unshift(newDemande);
+  });
+    }
+    $scope.pointages.unshift(demande) ;
+  }
 
   $scope.search = function(){
-    searchTerm = $scope.strSearch;
-    console.log('URL '+ searchTerm);
-    $http.get("api/contrats?q="+searchTerm)
-    .then(function(response) {
-      $scope.listContrats =      response.data;
-      // $scope.ccp ="";
-    });
+      srvContrats.find($scope.strSearch)
+              .then(function(response) {
+                $scope.results = response;
+              });
   }
 }]);
 
-appDaip.controller('contratListPointage',['$scope', '$http','srvPointage', function ($scope, $http,srvPointage) {
-  $scope.listContrats = srvPointage;
+appDaip.controller('contratListPointage',['$scope', 'srvPointages', function ($scope, srvPointages) {
+  $scope.listContrats = [];
+  srvPointages.getAll()
+              .then(function(response) {
+                $scope.listContrats =      response;
+              });
 
-  $scope.remove = function(index,demande){
-    srvPointage.splice(index,1);
-    // srvPointage.unshift(demande) ;
-    console.log(index,1);
-
-  };
-
+  $scope.remove = srvPointages.remove;
 }]);
