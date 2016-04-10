@@ -8,7 +8,6 @@ var path = require('path'),
     favicon = require('serve-favicon');
     errorHandler = require('errorhandler');
 
-
 module.exports = function(app) {
     app.use(morgan('dev'));
     app.use(bodyParser.urlencoded({'extended':true}));

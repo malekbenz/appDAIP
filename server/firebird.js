@@ -26,19 +26,26 @@ function execSql(sql,params, cb){
       // db = DATABASE
       db.query(sql, params, function(err, result) {
           // IMPORTANT: close the connection
-          db.detach();
-          result.forEach(function(element, index, array){
-             for (var index in element) {
-               // Convert Buffer to string
-                    if (Buffer.isBuffer( element[index]))
-                      element[index] = element[index].toString('utf8');
-                }
-          })
-          cb(result);
+          if (!err)
+          {
+            db.detach();
+            result.forEach(ConvertBuffToStr);
+            cb(err,result);
+          }
+          else {
+            cb(err,null);
+          }
       });
   });
 }
 
+function ConvertBuffToStr(element, index, array){
+        for (var index in element) {
+          // Convert Buffer to string
+          if (Buffer.isBuffer( element[index]))
+          element[index] = element[index].toString('utf8');
+    }
+}
 
 function LoadConfig() {
     var cfg = {};

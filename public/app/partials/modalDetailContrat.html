@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h3 class="modal-title "> {{items.DEMANDEUR}}   ({{items.CODE}}) </h3>
+</div>
+<div class="modal-body">
+          <div class="form-inline">
+
+          </div>
+
+          <div class="form-group">
+               <label for="exampleInputPassword1">Employeur </label>
+               <input type="text" class="form-control" id="exampleInputPassword1" value={{items.EMPLOYEUR}}>
+          </div>
+          <div class="form-group">
+               <label for="exampleInputPassword1">Programme </label>
+               <input type="text" class="form-control" id="exampleInputPassword1" value={{items.PROGRAMME}}>
+          </div>
+          <div class="form-group">
+               <label for="exampleInputPassword1">Niveau </label>
+               <input type="text" class="form-control" id="exampleInputPassword1" value={{items.TYPENIVEAU}}>
+          </div>
+          <div class="form-inline">
+                  <div class="form-group">
+                       <label for="exampleInputPassword1">Date Debut </label>
+                       <input type="text" class="form-control" id="exampleInputPassword1" value="{{items.DATEDEBUT|date:'dd MMMM yyyy'}}">
+                  </div>
+                  <div class="form-group">
+                       <label for="exampleInputPassword1">Date Fin contrat </label>
+                       <input type="text" class="form-control" id="exampleInputPassword1" value="{{items.DATEFIN | date:'dd MMMM yyyy'}}">
+                  </div>
+          </div>
+
+    <!-- <ul>
+        <li ng-repeat="item in items">
+            <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+        </li>
+    </ul> -->
+    Selected: <b>{{ selected.item }}</b>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

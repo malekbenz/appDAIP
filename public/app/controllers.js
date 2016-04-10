@@ -6,14 +6,63 @@ appDaip.controller('NavCtrl', function($scope, $location) {
     };
 });
 
-appDaip.controller('contratListCtrl',['$scope', 'srvPointages', 'srvContrats', function ($scope, srvPointages, srvContrats) {
+appDaip.controller('ModalDemoCtrl', function ($scope, $uibModal, $log) {
+  $scope.items = ['item1', 'item2', 'item3'];
+  $scope.animationsEnabled = true;
+  $scope.open = function (size) {
+                  var modalInstance = $uibModal.open({
+                                animation: $scope.animationsEnabled,
+                                templateUrl: 'app/partials/modalDetailContrat.html',
+                                controller: 'ModalInstanceCtrl',
+                                size: size,
+                                resolve: {
+                                  items: function () {
+                                    return $scope.items;
+                                  }
+                                }
+                              });
+
+                  modalInstance.result.then(function (selectedItem) {
+                    $scope.selected = selectedItem;
+                  }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                  });
+                };
+
+  $scope.toggleAnimation = function () {
+                    $scope.animationsEnabled = !$scope.animationsEnabled;
+                  };
+
+});
+
+// Please note that $uibModalInstance represents a modal window (instance) dependency.
+// It is not the same as the $uibModal service used above.
+
+appDaip.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items) {
+
+              $scope.items = items;
+              $scope.selected = {
+                item: $scope.items[0]
+              };
+              $scope.ok = function () {
+                $uibModalInstance.close($scope.selected.item);
+              };
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+              };
+});
+
+appDaip.controller('contratListCtrl',['$scope', 'srvPointages', 'srvContrats','$uibModal', '$log',
+                    function ($scope, srvPointages, srvContrats, $uibModal, $log) {
+  $scope.items = ['item1', 'item2', 'item3'];
+  $scope.animationsEnabled = true;
+
   $scope.results = [];
   $scope.pointages = [];
   $scope.lastPointages =[];
   $scope.lastMonths=  srvPointages.lastMonths;
   $scope.addMonth = function (mois,demande){
      console.log(demande);
-
         if (demande.mois.indexOf(mois)<0){
           demande.mois.push(mois);
         }
@@ -42,7 +91,8 @@ appDaip.controller('contratListCtrl',['$scope', 'srvPointages', 'srvContrats', f
       $scope.pointages.splice(index,1);
     }
 
-  $scope.add =  function(demande){
+  $scope.add =  function(demande, $event){
+    $event.stopPropagation();
     demande.addedAt = new Date();
     demande.mois = [srvPointages.currentMonth];
 
@@ -64,6 +114,32 @@ appDaip.controller('contratListCtrl',['$scope', 'srvPointages', 'srvContrats', f
                 $scope.results = response;
               });
   }
+
+  $scope.open = function (demande,size) {
+                  var modalInstance = $uibModal.open({
+                                animation: $scope.animationsEnabled,
+                                templateUrl: 'app/partials/modalDetailContrat.html',
+                                controller: 'ModalInstanceCtrl',
+                                size: size,
+                                resolve: {
+                                  items: function () {
+                                    return demande;
+                                  }
+                                }
+                              });
+
+                  modalInstance.result.then(function (selectedItem) {
+                    $scope.selected = selectedItem;
+                  }, function () {
+                    $log.info('Modal dismissed at: ' + new Date());
+                  });
+                };
+
+  $scope.toggleAnimation = function () {
+                    $scope.animationsEnabled = !$scope.animationsEnabled;
+                  };
+
+
 }]);
 
 appDaip.controller('contratListPointage',['$scope', 'srvPointages', function ($scope, srvPointages) {
